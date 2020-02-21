@@ -198,11 +198,11 @@ class Config extends \Magento\Framework\Config\Data
             return null;
         }
 
-        if (strcasecmp($config[$key], 'true') || $config[$key] === true || $config[$key] === 1) {
+        if (strcasecmp($config[$key], 'true') === 0 || $config[$key] === true || $config[$key] === 1) {
             return true;
         }
 
-        if (strcasecmp($config[$key], 'false') || $config[$key] === false || $config[$key] === 0) {
+        if (strcasecmp($config[$key], 'false') === 0 || $config[$key] === false || $config[$key] === 0) {
             return false;
         }
 
