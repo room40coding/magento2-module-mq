@@ -69,11 +69,31 @@ class StartConsumerCommand extends Command
 
         // Load and verify input arguments
         $queueName = $input->getArgument(self::ARGUMENT_QUEUE_NAME);
-        $interval = $input->getOption(self::OPTION_POLL_INTERVAL);
-        $limit = $input->getOption(self::OPTION_MESSAGE_LIMIT);
-        $requeue = (bool)$input->getOption(self::OPTION_MESSAGE_REQUEUE);
-        $runOnce = (bool)$input->getOption(self::OPTION_MESSAGE_RUN_ONCE);
-        $retryInterval = $input->getOption(self::OPTION_MESSAGE_RETRY_INTERVAL);
+
+        $interval = $this->queueConfig->getQueuePollInterval($queueName);
+        if ($interval === null) {
+            $interval = $input->getOption(self::OPTION_POLL_INTERVAL);
+        }
+
+        $limit = $this->queueConfig->getQueueLimit($queueName);
+        if ($limit === null) {
+            $limit = $input->getOption(self::OPTION_MESSAGE_LIMIT);
+        }
+
+        $requeue = $this->queueConfig->getQueueRequeue($queueName);
+        if ($requeue === null) {
+            $requeue = (bool)$input->getOption(self::OPTION_MESSAGE_REQUEUE);
+        }
+
+        $runOnce = $this->queueConfig->getQueueRunOnce($queueName);
+        if ($runOnce === null) {
+            $runOnce = (bool)$input->getOption(self::OPTION_MESSAGE_RUN_ONCE);
+        }
+
+        $retryInterval = $this->queueConfig->getQueueRetryInterval($queueName);
+        if ($retryInterval === null) {
+            $retryInterval = $input->getOption(self::OPTION_MESSAGE_RETRY_INTERVAL);
+        }
 
         // Prepare consumer and broker
         $broker = $this->queueConfig->getQueueBrokerInstance($queueName);

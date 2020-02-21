@@ -163,7 +163,7 @@ class Config extends \Magento\Framework\Config\Data
     {
         $config = $this->getItemByProperty('queues', $name);
 
-        return $config['requeue'] ?? null;
+        return $this->getConfigBoolean($name, $config, 'requeue');
     }
 
     /**
@@ -173,7 +173,7 @@ class Config extends \Magento\Framework\Config\Data
     {
         $config = $this->getItemByProperty('queues', $name);
 
-        return $config['runOnce'] ?? null;
+        return $this->getConfigBoolean($name, $config, 'runOnce');
     }
 
     /**
@@ -184,5 +184,28 @@ class Config extends \Magento\Framework\Config\Data
         $config = $this->getItemByProperty('queues', $name);
 
         return $config['retryInterval'] ?? null;
+    }
+
+    /**
+     * @param string $queueName
+     * @param array $config
+     * @param string $key
+     * @return bool|null
+     */
+    protected function getConfigBoolean($queueName, $config, $key)
+    {
+        if (!isset($config[$key])) {
+            return null;
+        }
+
+        if (strcasecmp($config[$key], 'true') || $config[$key] === true || $config[$key] === 1) {
+            return true;
+        }
+
+        if (strcasecmp($config[$key], 'false') || $config[$key] === false || $config[$key] === 0) {
+            return false;
+        }
+
+        throw new \Exception(sprintf('Boolean expected in config for queue %s, element %s', $queueName, $config[$key]));
     }
 }
