@@ -20,6 +20,7 @@ class StartConsumerCommand extends Command
     const OPTION_MESSAGE_LIMIT = 'limit';
     const OPTION_MESSAGE_REQUEUE = 'requeue';
     const OPTION_MESSAGE_RUN_ONCE = 'run-once';
+    const OPTION_MESSAGE_RETRY_INTERVAL = 'retry-interval';
 
     /**
      * @var QueueConfig
@@ -72,6 +73,7 @@ class StartConsumerCommand extends Command
         $limit = $input->getOption(self::OPTION_MESSAGE_LIMIT);
         $requeue = (bool)$input->getOption(self::OPTION_MESSAGE_REQUEUE);
         $runOnce = (bool)$input->getOption(self::OPTION_MESSAGE_RUN_ONCE);
+        $retryInterval = $input->getOption(self::OPTION_MESSAGE_RETRY_INTERVAL);
 
         // Prepare consumer and broker
         $broker = $this->queueConfig->getQueueBrokerInstance($queueName);
@@ -96,7 +98,7 @@ class StartConsumerCommand extends Command
                 );
                 $broker->acknowledge($message);
             } catch(\Exception $ex) {
-                $broker->reject($message, $requeue);
+                $broker->reject($message, $requeue, $retryInterval);
                 $output->writeln('Error processing message: ' . $ex->getMessage());
             }
         } while($limit != 0);
@@ -141,6 +143,13 @@ class StartConsumerCommand extends Command
             null,
             InputOption::VALUE_NONE,
             'Stop Process when queue is empty'
+        );
+        $this->addOption(
+            self::OPTION_MESSAGE_RETRY_INTERVAL,
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Minimum number of seconds before a failed job retries (default is 0 which just places the job at the end of the queue).',
+            0
         );
 
         parent::configure();

@@ -135,4 +135,54 @@ class Config extends \Magento\Framework\Config\Data
         
         return $config['messageSchema'];
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getQueuePollInterval($name)
+    {
+        $config = $this->getItemByProperty('queues', $name);
+
+        return $config['pollInterval'] ?? null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getQueueLimit($name)
+    {
+        $config = $this->getItemByProperty('queues', $name);
+
+        return $config['limit'] ?? null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getQueueRequeue($name)
+    {
+        $config = $this->getItemByProperty('queues', $name);
+
+        return $config['requeue'] ?? null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getQueueRunOnce($name)
+    {
+        $config = $this->getItemByProperty('queues', $name);
+
+        return $config['runOnce'] ?? null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getQueueRetryInterval($name)
+    {
+        $config = $this->getItemByProperty('queues', $name);
+
+        return $config['retryInterval'] ?? null;
+    }
 }
