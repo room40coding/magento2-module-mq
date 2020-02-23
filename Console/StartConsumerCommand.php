@@ -21,6 +21,7 @@ class StartConsumerCommand extends Command
     const OPTION_MESSAGE_REQUEUE = 'requeue';
     const OPTION_MESSAGE_RUN_ONCE = 'run-once';
     const OPTION_MESSAGE_RETRY_INTERVAL = 'retry-interval';
+    const OPTION_MESSAGE_MAX_RETRIES = 'retries';
 
     /**
      * @var QueueConfig
@@ -95,6 +96,11 @@ class StartConsumerCommand extends Command
             $retryInterval = $input->getOption(self::OPTION_MESSAGE_RETRY_INTERVAL);
         }
 
+        $maxRetries = $this->queueConfig->getQueueMaxRetries($queueName);
+        if ($maxRetries === null) {
+            $maxRetries = $input->getOption(self::OPTION_MESSAGE_MAX_RETRIES);
+        }
+
         // Prepare consumer and broker
         $broker = $this->queueConfig->getQueueBrokerInstance($queueName);
         $consumer = $this->queueConfig->getQueueConsumerInstance($queueName);
@@ -118,7 +124,7 @@ class StartConsumerCommand extends Command
                 );
                 $broker->acknowledge($message);
             } catch(\Exception $ex) {
-                $broker->reject($message, $requeue, $retryInterval);
+                $broker->reject($message, $requeue, $maxRetries, $retryInterval);
                 $output->writeln('Error processing message: ' . $ex->getMessage());
             }
         } while($limit != 0);
@@ -170,6 +176,13 @@ class StartConsumerCommand extends Command
             InputOption::VALUE_OPTIONAL,
             'Minimum number of seconds before a failed job retries (default is 0 which just places the job at the end of the queue).',
             0
+        );
+        $this->addOption(
+            self::OPTION_MESSAGE_MAX_RETRIES,
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'The number of times the system will attempt to perform the job (default is 5, 0 means unlimited).',
+            5
         );
 
         parent::configure();

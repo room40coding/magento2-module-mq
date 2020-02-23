@@ -40,6 +40,7 @@
         <xs:attribute type="requeueType" name="requeue"/>
         <xs:attribute type="runOnceType" name="runOnce"/>
         <xs:attribute type="retryIntervalType" name="retryInterval"/>
+        <xs:attribute type="maxRetriesType" name="maxRetries"/>
     </xs:complexType>
     <xs:simpleType name="classInterfaceType">
         <xs:annotation>
@@ -88,6 +89,14 @@
         <xs:annotation>
             <xs:documentation>
                 Minimum number of seconds before a failed job retries (default is 0 which just places the job at the end of the queue).
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:integer" />
+    </xs:simpleType>
+    <xs:simpleType name="maxRetriesType">
+        <xs:annotation>
+            <xs:documentation>
+                The number of times the system will attempt to perform the job (default is 5, 0 means unlimited).
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:integer" />

@@ -35,5 +35,5 @@ interface BrokerInterface
      *
      * @return void
      */
-    public function reject(MessageEnvelopeInterface $message, bool $requeue, int $retryInterval);
+    public function reject(MessageEnvelopeInterface $message, bool $requeue, int $maxRetries, int $retryInterval);
 }

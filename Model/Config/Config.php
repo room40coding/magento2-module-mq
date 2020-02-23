@@ -187,6 +187,16 @@ class Config extends \Magento\Framework\Config\Data
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getQueueMaxRetries($name)
+    {
+        $config = $this->getItemByProperty('queues', $name);
+
+        return $config['maxRetries'] ?? null;
+    }
+
+    /**
      * @param string $queueName
      * @param array $config
      * @param string $key

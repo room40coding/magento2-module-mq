@@ -90,4 +90,11 @@ interface ConfigInterface
      * @return int
      */
     public function getQueueRetryInterval($name);
+
+    /**
+     * Return minimum number of seconds before a failed job retries
+     *
+     * @return int
+     */
+    public function getQueueMaxRetries($name);
 }
