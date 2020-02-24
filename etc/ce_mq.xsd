@@ -88,7 +88,7 @@
     <xs:simpleType name="retryIntervalType">
         <xs:annotation>
             <xs:documentation>
-                Minimum number of seconds before a failed job retries (default is 0 which just places the job at the end of the queue).
+                Minimum number of seconds before a failed job retries (default is 0 which just places the job at the end of the queue, mysql only).
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:integer" />
@@ -96,7 +96,7 @@
     <xs:simpleType name="maxRetriesType">
         <xs:annotation>
             <xs:documentation>
-                The number of times the system will attempt to perform the job (default is 5, 0 means unlimited).
+                The number of times the system will attempt to perform the job (default is 5, 0 means unlimited, mysql only).
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:integer" />

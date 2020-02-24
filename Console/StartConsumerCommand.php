@@ -174,14 +174,14 @@ class StartConsumerCommand extends Command
             self::OPTION_MESSAGE_RETRY_INTERVAL,
             null,
             InputOption::VALUE_OPTIONAL,
-            'Minimum number of seconds before a failed job retries (default is 0 which just places the job at the end of the queue).',
+            'Minimum number of seconds before a failed job retries (default is 0 which just places the job at the end of the queue, mysql only).',
             0
         );
         $this->addOption(
             self::OPTION_MESSAGE_MAX_RETRIES,
             null,
             InputOption::VALUE_OPTIONAL,
-            'The number of times the system will attempt to perform the job (default is 5, 0 means unlimited).',
+            'The number of times the system will attempt to perform the job (default is 5, 0 means unlimited, mysql only).',
             5
         );
 

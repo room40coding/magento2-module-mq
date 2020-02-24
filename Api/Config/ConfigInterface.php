@@ -85,14 +85,14 @@ interface ConfigInterface
     public function getQueueRunOnce($name);
 
     /**
-     * Return minimum number of seconds before a failed job retries
+     * Return minimum number of seconds before a failed job retries. Not supported by amqp
      *
      * @return int
      */
     public function getQueueRetryInterval($name);
 
     /**
-     * Return minimum number of seconds before a failed job retries
+     * Return maximum number of attempts before the system stops retrying. Not supported by amqp
      *
      * @return int
      */
