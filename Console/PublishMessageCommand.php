@@ -62,7 +62,7 @@ class PublishMessageCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
             // this tosses an error if the areacode is not set.
@@ -85,6 +85,8 @@ class PublishMessageCommand extends Command
         );
 
         $output->writeln('Message published.');
+
+        return Command::SUCCESS;
     }
 
     /**

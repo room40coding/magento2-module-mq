@@ -41,7 +41,7 @@ class BrokerListCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
             // this tosses an error if the areacode is not set.
@@ -53,7 +53,7 @@ class BrokerListCommand extends Command
         $brokerNames = $this->queueConfig->getBrokerNames();
         if(count($brokerNames) == 0) {
             $output->writeln('No configured brokers.');
-            return;
+            return Command::SUCCESS;
         }
 
         // Print header
@@ -72,6 +72,8 @@ class BrokerListCommand extends Command
                 get_class($this->queueConfig->getBrokerInstance($name))
             ));
         }
+
+        return Command::SUCCESS;
     }
 
     /**

@@ -58,7 +58,7 @@ class StartConsumerCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
             $this->state->getAreaCode();
@@ -100,6 +100,8 @@ class StartConsumerCommand extends Command
                 $output->writeln('Error processing message: ' . $ex->getMessage());
             }
         } while($limit != 0);
+
+        return Command::SUCCESS;
     }
 
     /**

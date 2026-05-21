@@ -41,7 +41,7 @@ class QueueListCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
             // this tosses an error if the areacode is not set.
@@ -53,7 +53,7 @@ class QueueListCommand extends Command
         $queueNames = $this->queueConfig->getQueueNames();
         if(count($queueNames) == 0) {
             $output->writeln('No configured queue.');
-            return;
+            return Command::SUCCESS;
         }
 
         // Print header
@@ -74,6 +74,8 @@ class QueueListCommand extends Command
                 get_class($this->queueConfig->getQueueConsumerInstance($name))
             ));
         }
+
+        return Command::SUCCESS;
     }
 
     /**
