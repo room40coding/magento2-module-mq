@@ -38,7 +38,7 @@
         <xs:attribute type="xs:boolean" name="requeue" use="optional"/>
         <xs:attribute type="xs:integer" name="retryInterval" use="optional"/>
         <xs:attribute type="xs:integer" name="maxRetries" use="optional"/>
-        <xs:attribute type="xs:integer" name="leaseSeconds" use="optional"/>
+        <xs:attribute type="xs:positiveInteger" name="leaseSeconds" use="optional"/>
     </xs:complexType>
     <xs:simpleType name="classInterfaceType">
         <xs:annotation>

@@ -3,6 +3,7 @@
     
     <!-- Interface Implementations -->
     <preference for="Rcason\Mq\Api\Config\ConfigInterface" type="Rcason\Mq\Model\Config\Config" />
+    <preference for="Rcason\Mq\Api\Config\QueueAttributesInterface" type="Rcason\Mq\Model\Config\Config" />
     <preference for="Rcason\Mq\Api\Data\MessageEnvelopeInterface" type="Rcason\Mq\Model\MessageEnvelope" />
     <preference for="Rcason\Mq\Api\MessageEncoderInterface" type="Rcason\Mq\Model\JsonMessageEncoder" />
     <preference for="Rcason\Mq\Api\PublisherInterface" type="Rcason\Mq\Model\Publisher" />
