@@ -6,7 +6,8 @@ use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Config\CacheInterface;
 
 class Config extends \Magento\Framework\Config\Data
-    implements \Rcason\Mq\Api\Config\ConfigInterface
+    implements \Rcason\Mq\Api\Config\ConfigInterface,
+        \Rcason\Mq\Api\Config\QueueAttributesInterface
 {
     /**
      * @var ObjectManagerInterface
@@ -134,5 +135,19 @@ class Config extends \Magento\Framework\Config\Data
         $config = $this->getItemByProperty('queues', $name);
         
         return $config['messageSchema'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getQueueAttribute(string $queueName, string $attribute): ?string
+    {
+        foreach ($this->get('queues', []) as $queue) {
+            if (($queue['name'] ?? null) === $queueName) {
+                return isset($queue[$attribute]) ? (string) $queue[$attribute] : null;
+            }
+        }
+
+        return null;
     }
 }
